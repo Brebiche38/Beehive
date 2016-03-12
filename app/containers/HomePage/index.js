@@ -17,12 +17,6 @@ import reposSelector from 'reposSelector';
 import loadingSelector from 'loadingSelector';
 import errorSelector from 'errorSelector';
 
-import ExpandableNav from 'react-expandable-nav';
-var {ExpandableNavContainer, ExpandableNavbar, ExpandableNavHeader,
-      ExpandableNavMenu, ExpandableNavMenuItem, ExpandableNavPage,
-      ExpandableNavToggleButton} = ExpandableNav;
-
-
 import {
   changeUsername,
 } from './actions';
@@ -45,15 +39,12 @@ export class HomePage extends React.Component {
 
   constructor(props){
     super(props)
-    navigator.geolocation.getCurrentPosition(function(position){
-        alert(position.coords.latitude);
-        alert(position.coords.longitude);
-    });
+
     this.state =  {
         markers: [{
             position: {
-                lat: 35,
-                lng: 46,
+                lat: 46.6,
+                lng: 6.5,
             },
             key: "Lausanne",
             defaultAnimation: 2,
@@ -61,6 +52,33 @@ export class HomePage extends React.Component {
     }
   };
 
+  componentDidMount() {
+      this.showLoginModal();
+      var _this = this;
+      navigator.geolocation.getCurrentPosition(function(position){
+
+        _this.setState({
+            markers: [{
+            position: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            },
+            key: "userPosition",
+            defaultAnimation: 2,
+        }],
+        });
+      });
+
+      // ADD EVENT MARKERS FETCHED HERE
+  };
+
+  showLoginModal() {
+      this.refs.loginModal.show();
+  };
+
+  hideLoginModal() {
+      this.refs.loginModal.hide();
+  };
 
   showModal(){
         this.refs.modal.show();
@@ -103,16 +121,6 @@ export class HomePage extends React.Component {
       mainContent = (<List items={this.props.repos} component={RepoListItem} />);
     }
 
-    //Menu items
-    var header = {
-      small: <span className="logo">R</span>,
-      full: <span>React</span>
-    };
-    var menuItems = {
-      small: [<span className="glyphicon glyphicon-user"></span>, <span className="glyphicon glyphicon-user"></span>],
-      full: [<span>Home</span>, <span>About us</span>, <span>Contact us</span>]
-    };
-
     return (
       <div style={{height: "100%"}}>
       <Modal ref="modal">
@@ -120,19 +128,10 @@ export class HomePage extends React.Component {
         <button onClick={this.hideModal.bind(this)}>Close</button>
       </Modal>
 
-      <ExpandableNavContainer>
-        <ExpandableNavbar>
-          <ExpandableNavHeader small={header.small} full={header.full} />
-          <ExpandableNavMenu>
-            <ExpandableNavMenuItem small={menuItems.small[0]} full={menuItems.full[0]} url='/home/' />
-            <ExpandableNavMenuItem small={menuItems.small[1]} full={menuItems.full[1]} url='/about/' />
-          </ExpandableNavMenu>
-        </ExpandableNavbar>
-        <ExpandableNavToggleButton />
-        <ExpandableNavPage>
-          <p>Hello world</p>
-        </ExpandableNavPage>
-      </ExpandableNavContainer>
+      <Modal ref="loginModal">
+        <h2>LoginModal</h2>
+        <button onClick={this.hideLoginModal.bind(this)}>Close</button>
+      </Modal>
 
       <GoogleMapLoader
         containerElement={
@@ -146,8 +145,8 @@ export class HomePage extends React.Component {
         googleMapElement={
           <GoogleMap
             ref={(map) => console.log(map)}
-            defaultZoom={3}
-            defaultCenter={{lat: -25.363882, lng: 131.044922}}>
+            defaultZoom={12}
+            defaultCenter={{lat: 46.6, lng: 6.5}}>
             {this.state.markers.map((marker, index) => {
               return (
                 <Marker
