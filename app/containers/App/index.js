@@ -18,9 +18,7 @@ import styles from './styles.css';
 function App(props) {
   return (
     <div className={ styles.wrapper }>
-     
       { props.children }
-      <Footer />
     </div>
   );
 }
