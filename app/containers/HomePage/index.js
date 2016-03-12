@@ -10,7 +10,6 @@ import { push } from 'react-router-redux';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
 import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
-import Modal from "boron/FadeModal";
 import { createSelector } from 'reselect';
 import usernameSelector from 'usernameSelector';
 import reposSelector from 'reposSelector';
@@ -156,10 +155,6 @@ export class HomePage extends React.Component {
           </Navbar>
         </div>
         <div style={{height: "100%", width: "70%"}}>
-          <Modal ref="modal">
-            <h2>I am a dialog</h2>
-            <button onClick={this.hideModal.bind(this)}>Close</button>
-          </Modal>
 
           <GoogleMapLoader
             containerElement={
