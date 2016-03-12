@@ -25,14 +25,7 @@ import {
   loadRepos,
 } from '../App/actions';
 
-import Button from 'Button';
-import H1 from 'H1';
-import List from 'List';
-import ListItem from 'ListItem';
-import RepoListItem from 'RepoListItem';
-import LoadingIndicator from 'LoadingIndicator';
-
-import styles from './styles.css';
+import { Navbar, Input, ButtonToolbar, Button } from 'react-bootstrap';
 
 import Logo from './beehive_logo.png';
 
@@ -43,7 +36,8 @@ export class HomePage extends React.Component {
 
     this.state =  {
         markers: [],
-        position: {lat: 45.6, lon:6.5}
+        position: {lat: 46.5, lon:6.5},
+        range: 50
     }
   };
 
@@ -94,7 +88,17 @@ export class HomePage extends React.Component {
     this.openRoute('/features');
   };
 
+  validationState() {
+    if (this.state.value <= 0) return 'error';
+    if (this.state.value > 200) return 'warning';
+    return 'success';
+  };
 
+  handleChange() {
+    this.setState({
+      value: this.refs.input.getValue()
+    });
+  };
 
   render() {
     let mainContent = null;
@@ -115,18 +119,41 @@ export class HomePage extends React.Component {
     return (
       <div style={{height: "100%", width: "100%"}}>
         <div style={{height: "100%", width: "30%", float:"right"}}>
-          <div id="search" style={{height: "100%", width:"100%"}}>
-            <img src={Logo} height="100"/>
-            <br/>
-            <label for="range">Range</label>
-            <input id="range" type="number" min="0" max="100"/>
-            <br/>
-            <label for="start">From</label>
-            <input id="start" type="date" />
-            <br/>
-            <label for="end">To</label>
-            <input id="end" type="date" />
+          <div>
+            <ButtonToolbar>
+              <Button bsStyle="primary" bsSize="large">Large button</Button>
+              <Button bsSize="large">Large button</Button>
+            </ButtonToolbar>
+            <ButtonToolbar>
+              <Button bsStyle="primary">Default button</Button>
+              <Button>Default button</Button>
+            </ButtonToolbar>
+            <ButtonToolbar>
+              <Button bsStyle="primary" bsSize="small">Small button</Button>
+              <Button bsSize="small">Small button</Button>
+            </ButtonToolbar>
+            <ButtonToolbar>
+              <Button bsStyle="primary" bsSize="xsmall">Extra small button</Button>
+              <Button bsSize="xsmall">Extra small button</Button>
+            </ButtonToolbar>
           </div>
+          <Navbar id="search" style={{height: "100%", width:"100%"}}>
+            <Navbar.Collapse>
+              <Navbar.Form pullLeft>
+                <Input
+                  type="number"
+                  value={this.state.range}
+                  label="Search range"
+                  bsStyle={this.validationState()}
+                  hasFeedback
+                  ref="input"
+                  groupClassName="group-class"
+                  labelClassName="label-class"
+                  onChange={this.handleChange}
+                />
+              </Navbar.Form>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
         <div style={{height: "100%", width: "70%"}}>
           <Modal ref="modal">
