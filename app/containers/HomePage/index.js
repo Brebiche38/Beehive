@@ -35,6 +35,8 @@ import LoadingIndicator from 'LoadingIndicator';
 import styles from './styles.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.css'
 
+import Logo from './logoBeeHive.png';
+
 export class HomePage extends React.Component {
 
   constructor(props){
@@ -125,11 +127,18 @@ export class HomePage extends React.Component {
       <div style={{height: "100%"}}>
       <Modal ref="modal">
         <h2>I am a dialog</h2>
+       
         <button onClick={this.hideModal.bind(this)}>Close</button>
+        
       </Modal>
 
       <Modal ref="loginModal">
-        <h2>LoginModal</h2>
+
+         <div>
+            <img src={Logo} height="100" width="100"/>
+            <h2>BeeHive</h2>
+         </div>
+         
         <button onClick={this.hideLoginModal.bind(this)}>Close</button>
       </Modal>
 
