@@ -33,7 +33,6 @@ import RepoListItem from 'RepoListItem';
 import LoadingIndicator from 'LoadingIndicator';
 
 import styles from './styles.css';
-import bootstrap from 'bootstrap/dist/css/bootstrap.css'
 
 import Logo from './logoBeeHive.png';
 
@@ -127,9 +126,9 @@ export class HomePage extends React.Component {
       <div style={{height: "100%"}}>
       <Modal ref="modal">
         <h2>I am a dialog</h2>
-       
+
         <button onClick={this.hideModal.bind(this)}>Close</button>
-        
+
       </Modal>
 
       <Modal ref="loginModal">
@@ -138,7 +137,7 @@ export class HomePage extends React.Component {
             <img src={Logo} height="100" width="100"/>
             <h2>BeeHive</h2>
          </div>
-         
+
         <button onClick={this.hideLoginModal.bind(this)}>Close</button>
       </Modal>
 
