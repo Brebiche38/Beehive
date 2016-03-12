@@ -4,6 +4,7 @@
   "description": "Quick setup for new React.js applications featuring Redux, hot–reloading, PostCSS, react-router and Mocha.",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
+    "firebase": "^2.4.1",
     "fontfaceobserver": "^1.6.3",
     "history": "^2.0.0",
     "immutable": "^3.7.6",
@@ -138,14 +139,23 @@
     },
     "rules": {
       "comma-dangle": 2,
-      "indent": [2, 2, {"SwitchCase": 1}],
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
       "no-console": 0,
       "react/prop-types": 0,
       "max-len": 0,
       "prefer-template": 0,
       "no-use-before-define": 0,
       "newline-per-chained-call": 0,
-      "arrow-body-style": [2, "as-needed"]
+      "arrow-body-style": [
+        2,
+        "as-needed"
+      ]
     }
   },
   "stylelint": {
