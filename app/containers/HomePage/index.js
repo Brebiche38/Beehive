@@ -10,6 +10,10 @@ import { push } from 'react-router-redux';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
 import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
+import ExpandableNav from 'react-expandable-nav';
+var {ExpandableNavContainer, ExpandableNavbar, ExpandableNavHeader,
+      ExpandableNavMenu, ExpandableNavMenuItem, ExpandableNavPage,
+      ExpandableNavToggleButton} = ExpandableNav;
 import { createSelector } from 'reselect';
 import usernameSelector from 'usernameSelector';
 import reposSelector from 'reposSelector';
@@ -31,11 +35,14 @@ import ListItem from 'ListItem';
 import RepoListItem from 'RepoListItem';
 import LoadingIndicator from 'LoadingIndicator';
 
+
+
 import styles from './styles.css';
+import bootstraptheme from '/home/alexis/git/Beehive/bootstrap-3.3.6-dist/css/bootstrap-theme.css';
 
 export class HomePage extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate;
-  
+
   state = {
     markers: [{
       position: {
@@ -78,8 +85,32 @@ export class HomePage extends React.Component {
       mainContent = (<List items={this.props.repos} component={RepoListItem} />);
     }
 
+    var header = {
+        small: <span className="logo">R</span>,
+        full: <span>React</span>
+    };
+    var menuItems = {
+        small: [<span className="glyphicon glyphicon-home"></span>, <span className="glyphicon glyphicon-user"></span>],
+        full: [<span>Home</span>, <span>About us</span>, <span>Contact us</span>]
+    };
+
     return (
       <section style={{height: "100%"}}>
+
+      <ExpandableNavContainer>
+        <ExpandableNavbar>
+            <ExpandableNavHeader small={header.small} full={header.full} />
+            <ExpandableNavMenu>
+              <ExpandableNavMenuItem small={menuItems.small[0]} full={menuItems.full[0]} url='/home/' />
+              <ExpandableNavMenuItem small={menuItems.small[1]} full={menuItems.full[1]} url='/about/' />
+            </ExpandableNavMenu>
+        </ExpandableNavbar>
+        <ExpandableNavToggleButton />
+        <ExpandableNavPage>
+          <p>Hello world</p>
+        </ExpandableNavPage>
+      </ExpandableNavContainer>
+
       <GoogleMapLoader
         containerElement={
           <div
