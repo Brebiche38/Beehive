@@ -9,6 +9,7 @@
     "immutable": "^3.7.6",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
+    "react-google-maps": "^4.9.1",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
@@ -138,14 +139,23 @@
     },
     "rules": {
       "comma-dangle": 2,
-      "indent": [2, 2, {"SwitchCase": 1}],
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
       "no-console": 0,
       "react/prop-types": 0,
       "max-len": 0,
       "prefer-template": 0,
       "no-use-before-define": 0,
       "newline-per-chained-call": 0,
-      "arrow-body-style": [2, "as-needed"]
+      "arrow-body-style": [
+        2,
+        "as-needed"
+      ]
     }
   },
   "stylelint": {

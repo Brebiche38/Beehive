@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
+import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
 import { createSelector } from 'reselect';
 import usernameSelector from 'usernameSelector';
 import reposSelector from 'reposSelector';
@@ -34,7 +35,17 @@ import styles from './styles.css';
 
 export class HomePage extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate;
-
+  
+  state = {
+    markers: [{
+      position: {
+        lat: 25.0112183,
+        lng: 121.52067570000001,
+      },
+      key: "Taiwan",
+      defaultAnimation: 2,
+    }],
+  }
   /**
    * Changes the route
    *
@@ -68,30 +79,31 @@ export class HomePage extends React.Component {
     }
 
     return (
-      <article>
-        <div>
-          <section className={ styles.textSection }>
-            <H1>React Boilerplate</H1>
-            <p>Quick setup for new performance orientated, offline–first React.js applications featuring Redux, hot–reloading, PostCSS, react-router, ServiceWorker, AppCache, FontFaceObserver and Mocha.</p>
-          </section>
-          <section className={ styles.textSection }>
-              <form className={ styles.usernameForm } onSubmit={ this.props.onSubmitForm }>
-                <label>Show repositories of
-                  <span className={ styles.atPrefix }>@</span>
-                  <input
-                    className={ styles.input }
-                    type="text"
-                    placeholder="mxstbr"
-                    value={ this.props.username }
-                    onChange={ this.props.onChangeUsername }
-                  />
-                </label>
-              </form>
-              { mainContent }
-          </section>
-          <Button handleRoute = { this.openFeaturesPage }>Features</Button>
-        </div>
-      </article>
+      <section style={{height: "100%"}}>
+      <GoogleMapLoader
+        containerElement={
+          <div
+            {...this.props}
+            style={{
+              height: "100%",
+            }}
+          />
+        }
+        googleMapElement={
+          <GoogleMap
+            ref={(map) => console.log(map)}
+            defaultZoom={3}
+            defaultCenter={{lat: -25.363882, lng: 131.044922}}>
+            {this.state.markers.map((marker, index) => {
+              return (
+                <Marker
+                  {...marker}/>
+              );
+            })}
+          </GoogleMap>
+        }
+      />
+    </section>
     );
   }
 }
