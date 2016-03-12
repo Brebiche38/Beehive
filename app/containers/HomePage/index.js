@@ -42,31 +42,21 @@ export class HomePage extends React.Component {
     super(props)
 
     this.state =  {
-        markers: [{
-            position: {
-                lat: 46.6,
-                lng: 6.5,
-            },
-            key: "Lausanne",
-            defaultAnimation: 2,
-        }],
+        markers: [],
+        position: {lat: 45.6, lon:6.5}
     }
   };
 
-  componentDidMount() {
-      this.showLoginModal();
+  componentWillMount() {
       var _this = this;
       navigator.geolocation.getCurrentPosition(function(position){
 
         _this.setState({
-            markers: [{
+            markers: [],
             position: {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            },
-            key: "userPosition",
-            defaultAnimation: 2,
-        }],
+                lng: position.coords.longitude
+            }
         });
       });
 
@@ -123,48 +113,54 @@ export class HomePage extends React.Component {
     }
 
     return (
-      <div style={{height: "100%"}}>
-      <Modal ref="modal">
-        <h2>I am a dialog</h2>
+      <div style={{height: "100%", width: "100%"}}>
+        <div style={{height: "100%", width: "30%", float:"right"}}>
+          <div id="search" style={{height: "100%", width:"100%"}}>
+            <img src={Logo} height="100"/>
+            <br/>
+            <label for="range">Range</label>
+            <input id="range" type="number" min="0" max="100"/>
+            <br/>
+            <label for="start">From</label>
+            <input id="start" type="date" />
+            <br/>
+            <label for="end">To</label>
+            <input id="end" type="date" />
+          </div>
+        </div>
+        <div style={{height: "100%", width: "70%"}}>
+          <Modal ref="modal">
+            <h2>I am a dialog</h2>
+            <button onClick={this.hideModal.bind(this)}>Close</button>
+          </Modal>
 
-        <button onClick={this.hideModal.bind(this)}>Close</button>
-
-      </Modal>
-
-      <Modal ref="loginModal">
-
-         <div>
-            <img src={Logo} height="200"/>
-         </div>
-
-        <button onClick={this.hideLoginModal.bind(this)}>Close</button>
-      </Modal>
-
-      <GoogleMapLoader
-        containerElement={
-          <div
-            {...this.props}
-            style={{
-              height: "100%",
-            }}
+          <GoogleMapLoader
+            containerElement={
+              <div
+                {...this.props}
+                style={{
+                  height: "100%",
+                }}
+              />
+            }
+            googleMapElement={
+              <GoogleMap
+                ref={(map) => console.log(map)}
+                defaultZoom={12}
+                defaultCenter={{lat: this.state.position.lat, lng: this.state.position.lon}}>
+                {this.state.markers.map((marker, index) => {
+                  return (
+                    <Marker
+                      {...marker}
+                      onClick={this.showModal.bind(this)}/>
+                    );
+                  })
+                }
+              </GoogleMap>
+              }
           />
-        }
-        googleMapElement={
-          <GoogleMap
-            ref={(map) => console.log(map)}
-            defaultZoom={12}
-            defaultCenter={{lat: 46.6, lng: 6.5}}>
-            {this.state.markers.map((marker, index) => {
-              return (
-                <Marker
-                  {...marker}
-                  onClick={this.showModal.bind(this)}/>
-              );
-            })}
-          </GoogleMap>
-        }
-      />
-    </div>
+        </div>
+      </div>
     );
   }
 }
