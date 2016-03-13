@@ -34,7 +34,7 @@ import LoadingIndicator from 'LoadingIndicator';
 
 import styles from './styles.css';
 
-import Logo from './logoBeeHive.png';
+import Logo from './beehive_logo.png';
 
 export class HomePage extends React.Component {
 
@@ -134,8 +134,7 @@ export class HomePage extends React.Component {
       <Modal ref="loginModal">
 
          <div>
-            <img src={Logo} height="100" width="100"/>
-            <h2>BeeHive</h2>
+            <img src={Logo} height="200"/>
          </div>
 
         <button onClick={this.hideLoginModal.bind(this)}>Close</button>
