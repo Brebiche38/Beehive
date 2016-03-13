@@ -10,6 +10,7 @@ import { push } from 'react-router-redux';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
 import { GoogleMapLoader, GoogleMap, Marker } from "react-google-maps";
+import Modal from "boron/FadeModal";
 import { createSelector } from 'reselect';
 import usernameSelector from 'usernameSelector';
 import reposSelector from 'reposSelector';
@@ -34,31 +35,46 @@ import LoadingIndicator from 'LoadingIndicator';
 import styles from './styles.css';
 
 export class HomePage extends React.Component {
-  shouldComponentUpdate = shouldPureComponentUpdate;
+
+  constructor(props){
+    super(props)
+    navigator.geolocation.getCurrentPosition(function(position){
+        alert(position.coords.latitude);
+        alert(position.coords.longitude);
+    });
+    this.state =  {
+        markers: [{
+            position: {
+                lat: 35,
+                lng: 46,
+            },
+            key: "Lausanne",
+            defaultAnimation: 2,
+        }],
+    }
+  };
   
-  state = {
-    markers: [{
-      position: {
-        lat: 25.0112183,
-        lng: 121.52067570000001,
-      },
-      key: "Taiwan",
-      defaultAnimation: 2,
-    }],
-  }
+ 
+  showModal(){
+        this.refs.modal.show();
+  };
+  hideModal(){
+        this.refs.modal.hide();
+  };
+  
   /**
    * Changes the route
    *
    * @param  {string} route The route we want to go to
    */
-  openRoute = (route) => {
+  openRoute(route){
     this.props.changeRoute(route);
   };
 
   /**
    * Changed route to '/features'
    */
-  openFeaturesPage = () => {
+  openFeaturesPage(){
     this.openRoute('/features');
   };
 
@@ -77,9 +93,15 @@ export class HomePage extends React.Component {
     } else if (this.props.repos !== false) {
       mainContent = (<List items={this.props.repos} component={RepoListItem} />);
     }
+    
+    
 
     return (
-      <section style={{height: "100%"}}>
+      <div style={{height: "100%"}}>
+      <Modal ref="modal">
+        <h2>I am a dialog</h2>
+        <button onClick={this.hideModal.bind(this)}>Close</button>
+      </Modal>
       <GoogleMapLoader
         containerElement={
           <div
@@ -97,13 +119,14 @@ export class HomePage extends React.Component {
             {this.state.markers.map((marker, index) => {
               return (
                 <Marker
-                  {...marker}/>
+                  {...marker}
+                  onClick={this.showModal.bind(this)}/>
               );
             })}
           </GoogleMap>
         }
       />
-    </section>
+    </div>
     );
   }
 }
