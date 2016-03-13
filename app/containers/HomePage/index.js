@@ -38,15 +38,12 @@ export class HomePage extends React.Component {
 
   constructor(props){
     super(props)
-    navigator.geolocation.getCurrentPosition(function(position){
-        alert(position.coords.latitude);
-        alert(position.coords.longitude);
-    });
+
     this.state =  {
         markers: [{
             position: {
-                lat: 35,
-                lng: 46,
+                lat: 46.6,
+                lng: 6.5,
             },
             key: "Lausanne",
             defaultAnimation: 2,
@@ -54,7 +51,33 @@ export class HomePage extends React.Component {
     }
   };
   
- 
+  componentDidMount() {
+      this.showLoginModal();
+      var _this = this;
+      navigator.geolocation.getCurrentPosition(function(position){
+          
+        _this.setState({
+            markers: [{
+            position: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            },
+            key: "userPosition",
+            defaultAnimation: 2,
+        }],
+        });
+      });
+      
+      // ADD EVENT MARKERS FETCHED HERE
+  };
+  
+  showLoginModal() {
+      this.refs.loginModal.show();
+  };
+  
+  hideLoginModal() {
+      this.refs.loginModal.hide();
+  };
   showModal(){
         this.refs.modal.show();
   };
@@ -102,6 +125,10 @@ export class HomePage extends React.Component {
         <h2>I am a dialog</h2>
         <button onClick={this.hideModal.bind(this)}>Close</button>
       </Modal>
+      <Modal ref="loginModal">
+        <h2>LoginModal</h2>
+        <button onClick={this.hideLoginModal.bind(this)}>Close</button>
+      </Modal>
       <GoogleMapLoader
         containerElement={
           <div
@@ -114,8 +141,8 @@ export class HomePage extends React.Component {
         googleMapElement={
           <GoogleMap
             ref={(map) => console.log(map)}
-            defaultZoom={3}
-            defaultCenter={{lat: -25.363882, lng: 131.044922}}>
+            defaultZoom={12}
+            defaultCenter={{lat: 46.6, lng: 6.5}}>
             {this.state.markers.map((marker, index) => {
               return (
                 <Marker
